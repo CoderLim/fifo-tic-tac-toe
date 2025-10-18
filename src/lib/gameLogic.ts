@@ -12,7 +12,7 @@ export function createInitialState(): GameState {
   };
 }
 
-export function checkWinner(board: (Player | null)[]): Player | null {
+export function checkWinner(board: (Player | null)[]): { winner: Player | null; line?: number[] } {
   const lines = [
     [0, 1, 2], // top row
     [3, 4, 5], // middle row
@@ -26,11 +26,11 @@ export function checkWinner(board: (Player | null)[]): Player | null {
 
   for (const [a, b, c] of lines) {
     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-      return board[a];
+      return { winner: board[a], line: [a, b, c] };
     }
   }
 
-  return null;
+  return { winner: null };
 }
 
 export function isAdjacent(from: number, to: number): boolean {
@@ -102,7 +102,11 @@ export function makeMove(state: GameState, move: Move): GameState {
   }
 
   // Check winner
-  newState.winner = checkWinner(newState.board);
+  const winResult = checkWinner(newState.board);
+  newState.winner = winResult.winner;
+  if (winResult.line) {
+    newState.winLine = winResult.line;
+  }
 
   // Switch turn if no winner
   if (!newState.winner) {

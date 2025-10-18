@@ -7,6 +7,7 @@ export interface GameState {
   fifo: Record<Player, number[]>; // queue of indices (FIFO)
   phase: 'placing' | 'moving';
   winner: Player | null;
+  winLine?: number[];             // indices of winning line
   moveCount: number;
 }
 

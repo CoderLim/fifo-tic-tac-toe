@@ -2,6 +2,7 @@
 
 import { GameState } from '@/lib/types';
 import { Difficulty } from '@/lib/ai';
+import { Translations } from '@/lib/i18n';
 
 interface ControlsProps {
   state: GameState;
@@ -10,6 +11,7 @@ interface ControlsProps {
   onModeChange: (mode: 'pvp' | 'pvc') => void;
   onDifficultyChange: (difficulty: Difficulty) => void;
   onReset: () => void;
+  t: Translations;
 }
 
 export default function Controls({
@@ -19,127 +21,96 @@ export default function Controls({
   onModeChange,
   onDifficultyChange,
   onReset,
+  t,
 }: ControlsProps) {
   return (
-    <div className="w-full max-w-md space-y-6">
+    <div className="w-full space-y-5">
       {/* Mode Selection */}
-      <div className="flex gap-2">
-        <button
-          onClick={() => onModeChange('pvp')}
-          className={`
-            flex-1 py-3 px-4 rounded-lg font-semibold transition-all
-            ${mode === 'pvp'
-              ? 'bg-blue-600 text-white shadow-lg'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }
-          `}
-        >
-          双人对战 (PVP)
-        </button>
-        <button
-          onClick={() => onModeChange('pvc')}
-          className={`
-            flex-1 py-3 px-4 rounded-lg font-semibold transition-all
-            ${mode === 'pvc'
-              ? 'bg-blue-600 text-white shadow-lg'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }
-          `}
-        >
-          人机对战 (PVC)
-        </button>
+      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-1 shadow-xl border border-slate-700">
+        <div className="flex gap-1">
+          <button
+            onClick={() => onModeChange('pvp')}
+            className={`
+              flex-1 py-3 px-2 sm:px-4 rounded-xl font-semibold transition-all duration-300 relative overflow-hidden whitespace-nowrap text-sm sm:text-base
+              ${mode === 'pvp'
+                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/50'
+                : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700 hover:text-white'
+              }
+            `}
+          >
+            <span className="relative z-10">{t.pvp}</span>
+          </button>
+          <button
+            onClick={() => onModeChange('pvc')}
+            className={`
+              flex-1 py-3 px-2 sm:px-4 rounded-xl font-semibold transition-all duration-300 relative overflow-hidden whitespace-nowrap text-sm sm:text-base
+              ${mode === 'pvc'
+                ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-cyan-500/50'
+                : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700 hover:text-white'
+              }
+            `}
+          >
+            <span className="relative z-10">{t.pvc}</span>
+          </button>
+        </div>
       </div>
 
       {/* Difficulty Selection (PVC only) */}
       {mode === 'pvc' && (
-        <div className="flex gap-2">
-          <button
-            onClick={() => onDifficultyChange('easy')}
-            className={`
-              flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all
-              ${difficulty === 'easy'
-                ? 'bg-green-600 text-white shadow-md'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }
-            `}
-          >
-            简单
-          </button>
-          <button
-            onClick={() => onDifficultyChange('medium')}
-            className={`
-              flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all
-              ${difficulty === 'medium'
-                ? 'bg-yellow-600 text-white shadow-md'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }
-            `}
-          >
-            中等
-          </button>
-          <button
-            onClick={() => onDifficultyChange('hard')}
-            className={`
-              flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all
-              ${difficulty === 'hard'
-                ? 'bg-red-600 text-white shadow-md'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }
-            `}
-          >
-            困难
-          </button>
+        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-4 shadow-xl border border-slate-700 animate-fadeIn">
+          <div className="text-slate-300 text-sm font-medium mb-3">
+            {t.difficulty}
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => onDifficultyChange('easy')}
+              className={`
+                flex-1 py-2 px-3 rounded-xl text-sm font-semibold transition-all duration-300
+                ${difficulty === 'easy'
+                  ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/50'
+                  : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
+                }
+              `}
+            >
+              {t.easy}
+            </button>
+            <button
+              onClick={() => onDifficultyChange('medium')}
+              className={`
+                flex-1 py-2 px-3 rounded-xl text-sm font-semibold transition-all duration-300
+                ${difficulty === 'medium'
+                  ? 'bg-gradient-to-r from-yellow-500 to-orange-600 text-white shadow-lg shadow-yellow-500/50'
+                  : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
+                }
+              `}
+            >
+              {t.medium}
+            </button>
+            <button
+              onClick={() => onDifficultyChange('hard')}
+              className={`
+                flex-1 py-2 px-3 rounded-xl text-sm font-semibold transition-all duration-300
+                ${difficulty === 'hard'
+                  ? 'bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-lg shadow-red-500/50'
+                  : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
+                }
+              `}
+            >
+              {t.hard}
+            </button>
+          </div>
         </div>
       )}
-
-      {/* Game Status */}
-      <div className="bg-white rounded-lg p-4 shadow-md space-y-2">
-        <div className="flex justify-between items-center">
-          <span className="text-gray-600 font-medium">阶段：</span>
-          <span className="font-semibold text-lg">
-            {state.phase === 'placing' ? '放置阶段' : '移动阶段'}
-          </span>
-        </div>
-        
-        {!state.winner && (
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600 font-medium">回合：</span>
-            <span className={`font-bold text-2xl ${
-              state.turn === 'X' ? 'text-blue-600' : 'text-red-600'
-            }`}>
-              {state.turn === 'X' ? '✕' : '◯'}
-            </span>
-          </div>
-        )}
-
-        {state.winner && (
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600 font-medium">获胜者：</span>
-            <span className={`font-bold text-3xl ${
-              state.winner === 'X' ? 'text-blue-600' : 'text-red-600'
-            }`}>
-              {state.winner === 'X' ? '✕' : '◯'}
-            </span>
-          </div>
-        )}
-
-        <div className="flex justify-between items-center text-sm">
-          <span className="text-gray-500">已放置：</span>
-          <span className="text-gray-700">
-            <span className="text-blue-600 font-semibold">✕ {state.placed.X}</span>
-            {' / '}
-            <span className="text-red-600 font-semibold">◯ {state.placed.O}</span>
-          </span>
-        </div>
-      </div>
 
       {/* Reset Button */}
       <button
         onClick={onReset}
-        className="w-full py-3 px-4 bg-gray-800 text-white rounded-lg font-semibold
-                   hover:bg-gray-700 active:scale-95 transition-all shadow-lg"
+        className="w-full py-4 px-4 bg-gradient-to-r from-slate-700 to-slate-800 text-white rounded-2xl font-bold text-lg
+                   hover:from-slate-600 hover:to-slate-700 active:scale-95 transition-all duration-300 
+                   shadow-xl border border-slate-600 hover:shadow-slate-500/50 hover:border-slate-500
+                   flex items-center justify-center gap-2"
       >
-        重新开始
+        <span>{t.reset}</span>
       </button>
     </div>
   );
